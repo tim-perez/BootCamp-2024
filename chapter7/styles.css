@@ -1,0 +1,28 @@
+h1 {
+    color: red;
+    font-style: italic;
+}
+
+p {
+    font-family: Arial;
+}
+
+#main-heading {
+    font-size: 48px;
+}
+
+strong {
+    color: blue;
+}
+
+p strong {
+    font-size: 24px;
+}
+
+.highlight {
+    background-color: yellow;
+}
+
+.highlight strong {
+    background-color: orange;
+}
