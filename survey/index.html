@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+        <title>App Survey</title>
+    </head>
+    <body>
+        <main>
+            <header>
+                <h1>App Survey</h1>
+                <p>Thank you for taking the time to fill out this survey. Your feedback is important.</p>
+            </header>
+            <header class="container"> 
+                <form action="survey.php" method="post">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" name="age" id="age">
+                    </div>
+                    <h2>What app do you use the most?</h2>
+                    <div class="form-group">
+                        <input type="radio" name="app" id="facebook" value="facebook">
+                        <label for="facebook">Facebook</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="radio" name="app" id="twitter" value="twitter">
+                        <label for="twitter">X (Twitter)</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="radio" name="app" id="instagram" value="instagram">
+                        <label for="instagram">Instagram</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="radio" name="app" id="tiktok" value="tiktok">
+                        <label for="tiktok">TikTok</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="radio" name="app" id="other" value="other">
+                        <label for="other">Other</label>
+                    </div>
+                    <h2>How long are you on the app?</h2>
+                    <div class="form-group">
+                        <input type="radio" name="time" id="1" value="1">
+                        <label for="1">1 hour</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="radio" name="time" id="2" value="2">
+                        <label for="2">2 hours</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="radio" name="time" id="3" value="3">
+                        <label for="3">3 hours</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="radio" name="time" id="4" value="4">
+                        <label for="4">4 hours</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="radio" name="time" id="5" value="5">
+                        <label for="5">5+ hours</label>
+                    </div>
+                    <h2>What do you use the app for?</h2>
+                    <div class="form-group">
+                        <input type="radio" name="reason[]" id="business" value="business">
+                        <label for="business">Business</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="radio" name="reason[]" id="personal" value="personal">
+                        <label for="personal">Personal</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="radio" name="reason[]" id="both" value="both">
+                        <label for="both">Both</label>
+                    </div>
+                    <h2>What do you like the most about the app?</h2>
+                    <div class="form-group">
+                        <input type="checkbox" name="like" id="connect" value="connect">
+                        <label for="connect">Connect with people</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" name="like" id="news" value="news">
+                        <label for="news">Get news</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" name="like" id="entertainment" value="entertainment">
+                        <label for="entertainment">Entertainment</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" name="like" id="other" value="other">
+                        <label for="other">Other</label>
+                    </div>
+                    <h3>Please share other thoughts/opinions about the app:</h3>
+                    <div class="form-group">
+                        <textarea name="thoughts" id="thoughts" cols="30" rows="10"></textarea>
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>
+            </header>
+        </main>
+    </body>
+</html>
