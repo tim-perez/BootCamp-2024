@@ -37,16 +37,23 @@
 
         button.addEventListener('click', () => {
             value = input.value;
-            value = ''; 
+            input.value = ''; 
+
             const li = document.createElement('li');
             const span = document.createElement('span');
             const button = document.createElement('button');
+
             li.appendChild(span);
             li.appendChild(button);
             span.textContent = value;
             button.textContent = 'Delete';
             ul.appendChild(li);
 
+            button.addEventListener('click', () => {
+                ul.removeChild(li);
+            });
+            input.focus();
+            
         })
     </script>
   </body>
