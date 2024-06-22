@@ -1,7 +1,7 @@
 function Footer({ author }) {
   return (
     <footer>
-      <p>Build by: {author}</p>
+      <p>Built by: {author}</p>
     </footer>
   );
 }

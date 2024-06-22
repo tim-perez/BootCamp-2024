@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import './App.css';
 import Header from './components/Header';
 import Post from './components/Post';
 import Footer from './components/Footer';
+import SelectedItem from './components/SelectedItem';
+
 
 import Barry from './otters/otter1.jpg';
 import Robin from './otters/otter2.jpg';
@@ -18,21 +21,28 @@ const ottersArray = [
 ];
 
 function App() {
+
+  const [selectedPostName, setSelectedPostName] = useState('Barry');
+
   return (
     <div>
       <Header />
-      <ul className='post-list'>
-        {ottersArray.map((post) => (
-          <Post 
-          key={post.id}
-          image={post.image}
-          name={post.name}
-          />
-        ))}
-      </ul>
-      <Footer 
-       author='Tim Perez'
-      />
+      <div className='app-content'>
+        <ul className='post-list'>
+          {ottersArray.map((post) => (
+            <Post 
+            key={post.id}
+            image={post.image}
+            name={post.name}
+            />
+          ))}
+        </ul>
+        <SelectedItem
+          image={ottersArray[0].image}
+          name={ottersArray[0].name}
+        />
+      </div> 
+      <Footer author='Tim Perez'/>
     </div>
   );
 }
