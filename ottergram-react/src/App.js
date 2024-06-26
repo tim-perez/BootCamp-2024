@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Post from './components/Post';
 import Footer from './components/Footer';
 import SelectedItem from './components/SelectedItem';
+import Shuffle from './components/Shuffle';
 
 
 
@@ -14,7 +15,7 @@ import Maurice from './otters/otter3.jpg';
 import Lesley from './otters/otter4.jpg';
 import Barbara from './otters/otter5.jpg';
 
-const ottersArray = [
+const INITIAL_OTTER_ARRAY = [
   {image: Barry, name: 'Barry', id: 1},
   {image: Robin, name: 'Robin', id: 2},
   {image: Maurice, name: 'Maurice', id: 3},
@@ -24,8 +25,8 @@ const ottersArray = [
 
 function App() {
 
-  const [selectedPostName, setSelectedPostName] = useState(ottersArray[0].name);
-
+  const [selectedPostName, setSelectedPostName] = useState('Barry');
+  const [ottersArray, setOttersArray] = useState(INITIAL_OTTER_ARRAY);
   const selectedPost = ottersArray.find(otter => otter.name === selectedPostName);
 
    
@@ -49,7 +50,11 @@ function App() {
           name={selectedPost.name}
         />
       </div> 
-
+      <Shuffle 
+        ottersArray={ottersArray}
+        setOttersArray={setOttersArray}
+        setSelectedPostName={setSelectedPostName}
+      />
       <Footer author='Tim Perez'/>
     </div>
   );
