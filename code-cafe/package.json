@@ -19,7 +19,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npm-run-all --parallel front-end back-end",
+    "front-end": "react-scripts start",
+    "back-end": "cd code-cafe-backend && npm start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "lint": "eslint src --max-warnings=0",
