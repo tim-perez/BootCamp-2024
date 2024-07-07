@@ -1,14 +1,41 @@
 import PropTypes from 'prop-types';
+import { PatternFormat } from 'react-number-format';
+import { useState } from 'react';
 import './Cart.css';
 import ItemType from '../types/item';
 import CartRow from './CartRow';
 
 function Cart({ cart, dispatch, items }) {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [zipCode, setZipCode] = useState('');
+  const [coupon, setCoupon] = useState('');
+
   const subTotal = cart.reduce((acc, item) => {
     const detailItem = items.find((i) => i.itemId === item.itemId);
     const itemPrice = detailItem.salePrice ?? detailItem.price;
     return item.quantity * itemPrice + acc;
   }, 0);
+
+  const taxPercentage = parseInt(zipCode.substring(0, 1) || '0', 10) + 1;
+  const taxRate = taxPercentage / 100;
+  const tax = subTotal * taxRate;
+  const total = subTotal + tax;
+  const isFormValid = zipCode.length === 5 && name.trim();
+
+  const submitOrder = (event) => {
+    event.preventDefault();
+    console.log('name: ', name);
+    console.log('phone: ', phone);
+    console.log('zipcode: ', zipCode);
+    console.log('coupon: ', coupon);
+  };
+
+  const setFormattedCoupon = (newCoupon) => {
+    const formatted = newCoupon.toUpperCase();
+    setCoupon(formatted);
+  };
+
   return (
     <div className="cart-component">
       <h2>Your Cart</h2>
@@ -39,6 +66,71 @@ function Cart({ cart, dispatch, items }) {
             Subtotal: $
             {subTotal.toFixed(2)}
           </div>
+          { zipCode.length === 5
+            ? (
+              <>
+                <div>
+                  Tax: $
+                  {tax.toFixed(2)}
+                </div>
+                <div>
+                  Total: $
+                  { total.toFixed(2) }
+                </div>
+              </>
+            ) : (
+              <div className="warning">Enter ZIP Code to get total</div>
+            )}
+          <h2>Checkout</h2>
+          <form onSubmit={submitOrder}>
+            <label htmlFor="name">
+              Name
+              <input
+                id="name"
+                type="text"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                required
+              />
+            </label>
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+            <label htmlFor="phone">
+              Phone Number
+              <PatternFormat
+                id="phone"
+                format="(###) ###-####"
+                mask="_"
+                value={phone}
+                onValueChange={({ value }) => setPhone(value)}
+                required
+              />
+            </label>
+            <label htmlFor="zipcode">
+              Zip Code
+              <input
+                id="zipCode"
+                type="text"
+                maxLength="5"
+                inputMode="numeric"
+                value={zipCode}
+                onChange={(event) => setZipCode(event.target.value)}
+                required
+              />
+            </label>
+            <label htmlFor="coupon">
+              Coupon Code
+              <input
+                id="coupon"
+                type="text"
+                placeholder="Enter coupon code here"
+                value={coupon}
+                onChange={(event) => setFormattedCoupon(event.target.value)}
+              />
+            </label>
+            <button type="submit" disabled={!isFormValid}>
+              Order Now
+            </button>
+          </form>
         </>
 
       )}
