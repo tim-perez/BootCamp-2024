@@ -1,4 +1,4 @@
-import axios from 'axios';
+import PocketBase from 'pocketbase';
 import {
   useEffect, useState, useReducer, useMemo,
 } from 'react';
@@ -44,15 +44,22 @@ function App() {
   }, [cart]);
 
   useEffect(() => {
-    axios.get('/api/items')
-      .then((result) => setItems(result.data))
-      .catch(console.error);
+    async function getItems() {
+      const pb = new PocketBase();
+
+      try {
+        const itemlist = await pb.collection('items').getFullList();
+        setItems(itemlist);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getItems();
   }, []);
 
   useEffect(() => {
-    axios.get('/api/auth/current-user')
-      .then((result) => setCurrentUser(result.data))
-      .catch(console.error);
+    const pb = new PocketBase();
+    setCurrentUser(pb.authStore.model || {});
   }, []);
 
   const currentUserContextValue = useMemo(

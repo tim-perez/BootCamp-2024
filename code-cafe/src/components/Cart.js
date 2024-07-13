@@ -1,4 +1,4 @@
-import axios from 'axios';
+import PocketBase from 'pocketbase';
 import PropTypes from 'prop-types';
 import { PatternFormat } from 'react-number-format';
 import { useRef, useState } from 'react';
@@ -34,13 +34,12 @@ function Cart({ cart, dispatch, items }) {
   const isFormValid = zipCode.length === 5 && name.trim();
 
   const submitOrder = async (event) => {
+    const pb = new PocketBase();
     event.preventDefault();
     setIsSubmitting(true);
     setApiError('');
-    const orders = await axios.get('/api/orders');
-    const orderNumber = orders.data.length;
     try {
-      await axios.post('/api/orders', {
+      await pb.collection('orders').create({
         items: cart,
         name,
         phone,
@@ -48,13 +47,12 @@ function Cart({ cart, dispatch, items }) {
       });
       dispatch({ type: CartTypes.EMPTY });
       setShowSuccessAlert(true);
-      console.log(`There are ${orderNumber - 1} orders ahead of you.`);
       setName('');
       setPhone('');
       setZipCode('');
     } catch (error) {
       console.error('Error submitting the order:', error);
-      setApiError(error?.response?.data?.error || 'Unknown Error');
+      setApiError(error?.response?.message || 'Unknown Error');
     } finally {
       setIsSubmitting(false);
     }
@@ -72,7 +70,7 @@ function Cart({ cart, dispatch, items }) {
       you will automatically be moved to the next field."
     />
   );
-  if (phone.length === 10) {
+  if (phone.length === 10 && zipCode.length === 0) {
     zipRef.current.focus();
   }
   if (zipCode.length === 5 && name.trim() === '') {
@@ -88,15 +86,21 @@ function Cart({ cart, dispatch, items }) {
       clearTimeout(debounceRef.current);
     }
     debounceRef.current = setTimeout(() => {
-      axios
-        .get(`/api/employees/isEmployeeOfTheMonth?name=${newName}`)
-        .then((response) => setIsEmployeeOfTheMonth(
-          response?.data?.isEmployeeOfTheMonth,
-        ))
-        .catch(console.error);
-    }, 300);
-  };
+      const pb = new PocketBase();
 
+      async function getEmployeeOfTheMonth() {
+        try {
+          const response = await pb.collection('employees').getOne(newName);
+          console.log('Employee of the month:', response);
+        } catch (error) {
+          if (error.status === 404) {
+            setIsEmployeeOfTheMonth(false);
+          }
+        }
+      }
+      getEmployeeOfTheMonth();
+    }, 500);
+  };
   return (
     <div className="cart-component">
       <Alert visible={showSuccessAlert} type="success">Thank you for your order.</Alert>
@@ -203,7 +207,7 @@ Cart.propTypes = {
   cart: PropTypes.arrayOf(PropTypes.shape({
     itemId: PropTypes.string.isRequired,
     quantity: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
   })).isRequired,
   dispatch: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(ItemType).isRequired,

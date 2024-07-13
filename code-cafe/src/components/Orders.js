@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import axios from 'axios';
+import Pocketbase from 'pocketbase';
 import { useState, useEffect } from 'react';
 import ItemType from '../types/item';
 import './Orders.css';
@@ -9,38 +9,36 @@ function Orders({ items }) {
   const [orders, setOrders] = useState([]);
   const { currentUser } = useCurrentUserContext();
 
-  useEffect(
-    () => {
-      if (currentUser.access === 'associate') {
-        const ws = new WebSocket(`${(
-          window.location.protocol === 'https:' ? 'wss://' : 'ws://'
-        )}${window.location.host}/ws-cafe`);
-        ws.onopen = () => {
-          console.log('connected');
-        };
-        ws.onerror = (event) => {
-          console.error(event);
-        };
-        ws.onmessage = (message) => {
-          const newOrders = JSON.parse(message.data);
-          setOrders(newOrders);
-        };
-        ws.onclose = () => {
-          console.log('disconnected');
-        };
-        return () => {
-          ws.close();
-          setOrders([]);
-        };
+  useEffect(() => {
+    const pb = new Pocketbase();
+    async function getOrders() {
+      try {
+        const records = await pb.collection('orders').getFullList({
+          sort: '-created',
+        });
+        setOrders(records);
+      } catch (error) {
+        console.error(error);
       }
-      return () => { };
-    },
-    [currentUser],
-  );
+    }
+    if (currentUser.access === 'associate') {
+      pb.collection('orders').subscribe('*', (e) => {
+        console.log(e.record);
+        console.log(e.action);
+      });
+      getOrders();
+      return () => {
+        pb.collection('orders').unsubscribe();
+        setOrders([]);
+      };
+    }
+    return () => { };
+  }, [currentUser]);
 
   const deleteOrder = async (order) => {
+    const pb = new Pocketbase();
     try {
-      await axios.delete(`/api/orders/${order.id}`);
+      await pb.collection('orders').delete(order.id);
     } catch (error) {
       console.error(error);
     }

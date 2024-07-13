@@ -1,4 +1,4 @@
-import axios from 'axios';
+import PocketBase from 'pocketbase';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import CurrentUserContext from '../contexts/CurrentUserContext';
@@ -9,8 +9,10 @@ function UserDetails() {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
   const logout = async () => {
+    const pb = new PocketBase();
+
     try {
-      await axios.post('/api/auth/logout', {});
+      pb.authStore.clear();
       setCurrentUser({});
     } catch (error) {
       console.error(error);

@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import PocketBase from 'pocketbase';
 import Alert from './Alert';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import './Login.css';
@@ -15,12 +15,13 @@ function Login() {
 
   const login = async (event) => {
     event.preventDefault();
+    const pb = new PocketBase();
     try {
-      const result = await axios.post('/api/auth/login', {
+      const result = await pb.collection('users').authWithPassword(
         username,
         password,
-      });
-      setCurrentUser(result.data);
+      );
+      setCurrentUser(result.record);
       navigate('/');
     } catch (error) {
       console.error(error);
