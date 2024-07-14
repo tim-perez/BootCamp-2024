@@ -5,9 +5,8 @@ import styles from "@/styles/Home.module.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const Home: NextPage = () => {
+export default function Home() {
   return (
-    <div className={styles.container}>
     <>
       <Head>
         <title>Create Next App</title>
@@ -111,8 +110,5 @@ const Home: NextPage = () => {
         </div>
       </main>
     </>
-    </div>
   );
 }
-
-export default Home;
