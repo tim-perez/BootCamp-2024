@@ -39,10 +39,10 @@ export const getServerSideProps: GetServerSideProps = async (
       names = await fetchNames();
   } catch(err) {}
   return {
-    props: {
+      props: {
       names,
       revalidate: 30
-  }
+    }
   };
 };
 
