@@ -5,8 +5,10 @@ import {storeDocument} from "../mongoose/weather/services"
 async function dbConnect(): Promise<any | String> {
     const mongoServer = await MongoMemoryServer.create();
     const MONGOIO_URI = mongoServer.getUri();
+    console.log(MONGOIO_URI);
     await mongoose.disconnect();
-    await mongoose.connect(MONGOIO_URI, {
+    
+    let db = await mongoose.connect(MONGOIO_URI, {
         dbName: "Weather"
     });
 
