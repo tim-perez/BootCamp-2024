@@ -1,6 +1,6 @@
 import type {NextApiRequest, NextApiResponse, NextApiHandler} from "next";
-import {findByZip} from "./../../../../mongoose/weather/services";
-import dbConnect from "./../../../../middleware/db-connect";
+import {findByZip} from "../../../../mongoose/weather/services";
+import dbConnect from "../../../../middleware/db-connect";
 
 async function handler(
     req: NextApiRequest,
