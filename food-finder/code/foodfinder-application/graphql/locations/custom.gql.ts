@@ -1,4 +1,4 @@
-export default `
+const schema = `
     directive @cacheControl(maxAge: Int) on FIELD_DEFINITION | OBJECT
     type Location @cacheControl(maxAge: 86400) {
         address: String
@@ -12,3 +12,5 @@ export default `
         location_id: String
     }
 `;
+
+export default schema;
