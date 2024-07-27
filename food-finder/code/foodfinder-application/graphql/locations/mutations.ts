@@ -1,5 +1,5 @@
 import {updateWishlist} from "mongoose/locations/services";
-import {authGuard} from "middleware/auth-guard";
+import {authGuard} from "../../middleware/auth-guard";
 import {JWT} from "next-auth/jwt";
 
 interface UpdateWishlistInterface {
@@ -21,11 +21,15 @@ export const locationMutations = {
         const guard = authGuard(param, context);
         if (guard !== true) {return guard;}
 
-        return await updateWishlist(param.location_id, param.user_id,
-            "remove"
-        );
+        return await updateWishlist(param.location_id, param.user_id, "remove");
     },
-    addWishlist: async (_: any, param: UpdateWishlistInterface, context: contextInterface) => {
+
+    addWishlist: async (
+        _: any,
+        param: UpdateWishlistInterface,
+        context: contextInterface
+    ) => {
+
         const guard = authGuard(param, context);
         if (guard !== true) {return guard;}
 
