@@ -32,10 +32,13 @@ export const LocationSchema: Schema = new Schema<LocationType>({
     on_wishlist: {
         type: ["String"],
         required: true,
+        index: true,
+
     },
     location_id: {
         type: "String",
         required: true,
+        index: true,
     },
 });
 

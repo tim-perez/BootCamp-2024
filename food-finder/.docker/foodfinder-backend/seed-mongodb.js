@@ -1,5 +1,8 @@
 print("Seeding the collection 'locations' in the 'foodlist' db");
 
+db.locations.createIndex({ on_wishlist: 1 });
+db.locations.createIndex({ location_id: 1 });
+
 db.locations.insert([
     {
         address: "6220 Avenue U",

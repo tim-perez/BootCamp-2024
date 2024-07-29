@@ -6,7 +6,7 @@ interface paramInterface {
     location_id: string;
 }
 interface contextInterface {
-    token: JWT;
+    token: JWT | null;
 }
 
 export const authGuard = (

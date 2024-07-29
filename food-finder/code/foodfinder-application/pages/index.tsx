@@ -9,7 +9,6 @@ import {LocationType} from "mongoose/locations/schema";
 const Home: NextPage = (
     props: InferGetStaticPropsType<typeof getStaticProps>
 ) => {
-    // Check if props.data?.locations is defined and parse it safely
     const locations: LocationType[] = props.data?.locations ? JSON.parse(props.data.locations) : [];
     let title = `The Food Finder - Home`;
 
@@ -37,7 +36,8 @@ export const getStaticProps: GetStaticProps = async () => {
     return {
         props: {
             data: {
-                locations: JSON.stringify(locations)
+                locations: JSON.stringify(locations),
+                revalidate: 30,
             },
         },
     };

@@ -16,7 +16,7 @@ services:
             - CHOKIDAR_USEPOLLING=true
             - CHOKIDAR_INTERVAL=100
         tty: true
-        command: "su node -c 'npm install && npm run dev'"
+        command: "su node -c 'npm start'"
     backend:
         container_name: foodfinder-backend
         image: mongo:latest

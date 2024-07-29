@@ -8,7 +8,7 @@ interface UpdateWishlistInterface {
 }
 
 interface contextInterface {
-    token: JWT;
+    token: JWT | null;
 }
 
 export const locationMutations = {
