@@ -1,0 +1,71 @@
+{
+  "auth": {
+    "lambdatriggerexample4b5cc288": {
+      "customAuth": false,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "lambdatriggerexample4b5cc288PostConfirmation",
+          "triggerProvider": "Cognito"
+        }
+      ],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
+    }
+  },
+  "function": {
+    "lambdatriggerexample4b5cc288PostConfirmation": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_lambdatriggerexample4b5cc288PostConfirmation_GROUP": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "lambdatriggerexample4b5cc288PostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_lambdatriggerexample4b5cc288PostConfirmation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "lambdatriggerexample4b5cc288PostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_lambdatriggerexample4b5cc288PostConfirmation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "lambdatriggerexample4b5cc288PostConfirmation"
+        }
+      ]
+    }
+  }
+}
