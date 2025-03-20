@@ -1,0 +1,18 @@
+{
+  "resourceName": "fileStorage",
+  "policyUUID": "10fbb6fd",
+  "bucketName": "myunique-bucket-xyz",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "S3Trigger23c7bb19",
+  "groupAccess": {}
+}

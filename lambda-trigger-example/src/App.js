@@ -1,47 +1,58 @@
-import React, { useEffect, useState } from 'react';
-import { Amplify } from 'aws-amplify';
-import { fetchAuthSession, getCurrentUser } from 'aws-amplify/auth';
-import { Authenticator } from '@aws-amplify/ui-react';
-import awsExports from './aws-exports';
+import React, { useState, useEffect } from 'react';
+import { Storage } from '@aws-amplify';
+import { v4 as uuid } from 'uuid';
 import './App.css';
 
-Amplify.configure(awsExports);
-
 function App() {
-  const [user, setUser] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
-    async function fetchUser() {
-      try {
-        const currentUser = await getCurrentUser();
-        const session = await fetchAuthSession();
-        setUser(currentUser);
-
-        const payload = session.tokens?.idToken?.payload || {};
-        if (payload['cognito:groups']?.includes('Admin')) {
-          setIsAdmin(true);
-        }
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      }
-    }
-
-    fetchUser();
+    fetchImages();
   }, []);
 
+  async function onChange(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const filetype = file.name.split('.').pop();
+    const filename = `${uuid()}.${filetype}`;
+
+    try {
+      await Storage.put(filename, file, {
+        contentType: file.type, // Ensures proper MIME type
+      });
+      fetchImages(); // Refresh images after upload
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+  }
+
+  async function fetchImages() {
+    try {
+      const files = await Storage.list('');
+      if (!files || !files.results) return;
+
+      const signedFiles = await Promise.all(
+        files.results.map(async (file) => {
+          const signedFile = await Storage.get(file.key);
+          return signedFile;
+        })
+      );
+      setImages(signedFiles);
+    } catch (error) {
+      console.error('Error fetching images:', error);
+    }
+  }
+
   return (
-    <Authenticator>
-      {({ signOut }) => (
-        <div className="App">
-          <header>
-            <h1>Hello World</h1>
-            {isAdmin && <p>Welcome, Admin</p>}
-          </header>
-          <button onClick={signOut}>Sign Out</button>
-        </div>
-      )}
-    </Authenticator>
+    <div className="App">
+      <header className="App-header">
+        <input type="file" onChange={onChange} />
+        {images.map((image, index) => (
+          <img src={image} key={index} alt={`Uploaded ${index}`} style={{ width: 500 }} />
+        ))}
+      </header>
+    </div>
   );
 }
 

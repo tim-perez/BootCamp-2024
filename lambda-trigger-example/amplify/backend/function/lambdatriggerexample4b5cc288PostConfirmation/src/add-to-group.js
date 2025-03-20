@@ -9,7 +9,7 @@ exports.handler = async (event, context, callback) => {
   });
 
   let isAdmin = false
-  const adminEmails = ['dabit3@gmail.com']
+  const adminEmails = ['timperez24@csu.fullerton.edu']
 
   // If the user is one of the admins, set the isAdmin variable to true
   if (adminEmails.indexOf(event.request.userAttributes.email) !== -1) {
